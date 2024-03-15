@@ -1,11 +1,18 @@
 -- Insertar películas en la tabla peliculas
 INSERT INTO peliculas (titulo, imagen_url, duracion, clasificacion, created_at, updated_at)
 VALUES
-  ('DUNE: PART2', 'ruta_de_imagen', 160, 5, NOW(), NOW()),
-  ('Cualquiera menos tu', 'ruta_de_imagen', 103, 4, NOW(), NOW()),
-  ('WONKA', 'ruta_de_imagen', 116, 2, NOW(), NOW()),
-  ('MIGRACION', 'ruta_de_imagen', 82, 3, NOW(), NOW()),
-  ('Sociedad de la nieve', 'ruta_de_imagen', 144, 5, NOW(), NOW());
+  ('DUNE: PART2', 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRNgijMfbbgqI-PDhoPa4bo64fp90yrboBdgMHbcW9fg05sv4Zx', 160, 5, NOW(), NOW()),
+  ('Cualquiera menos tu', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTFrvZI9Xa_HmjtekEl6EZuwA9UmjLz6xkaIdH4W1E975FV1pxR', 103, 4, NOW(), NOW()),
+  ('WONKA', 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRhr0dEsdB5uqgfEXySWcV5lbDeym0RjBB9LOvCZ-83jQD6NO2Y', 116, 2, NOW(), NOW()),
+  ('MIGRACION', 'https://m.media-amazon.com/images/M/MV5BNDY4NTJmNGMtZTU2ZS00MjdkLWIwYTgtNWU5ZWMzZDMwODkyXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_FMjpg_UX1000_.jpg', 82, 3, NOW(), NOW()),
+  ('Sociedad de la nieve', 'https://images.ctfassets.net/4cd45et68cgf/4HXqHLksKw8jSBeULjWCk0/3829fce17bebf107dace4325f724e4d4/es-ES_sots_main_theatrical_vertical_27x40_cmyk_pre_1.jpg?w=1200', 144, 5, NOW(), NOW());
+  ('Spider-Man: No Way Home', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQExSKCIV-7phwcX9R-yfDSGoA8cFPbYjlH419RF6CHj6LITdrX', 160, 5, NOW(), NOW()),
+  ('Avatar 2 (Avatar: The Way of Water)', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSGQUTaBL19fLf8caYxcyNt0mYl9HgpiKPAaGgQxCuz3ZTvAWVI', 103, 4, NOW(), NOW()),
+  ('La Montaña Entre Nosotros', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJCpyt8YT9k5PeRDjXRvT5haxxIEAmepd52NcwMy6_uR66Cxf3', 116, 2, NOW(), NOW()),
+  ('El Lobo d Wall Street', 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTrqI60p3I82Q67Wh6HEyDC24Orl0qFzSWNX7EH6niO1SnvBsPl', 82, 3, NOW(), NOW()),
+  ('El renacido', 'https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQyHpNGDe96zaNg7UQj4V-uCXs298s-if7UXI_F4DLS8a5kCafS', 144, 5, NOW(), NOW());
+  ('Interestelar', 'https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQ7Fs96VWAroj5FnniocLkw2e9AXfcIjZyrvtZ5eGxfF5Q3O6ZuzsjXmTpVSBG0E5u0', 160, 5, NOW(), NOW()),
+  ('La teoria del todo', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSga0dkGIsGIb8feeeArnpwiK4JWsAYIyN42A__YXmFij9foijM', 103, 4, NOW(), NOW()),
 -- Insertar usuarios en la tabla usuarios
 INSERT INTO usuarios (nombre, apellido, telefono, correo, created_at, updated_at)
 VALUES

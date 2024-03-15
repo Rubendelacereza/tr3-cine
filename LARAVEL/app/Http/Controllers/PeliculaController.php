@@ -15,7 +15,8 @@ class PeliculaController extends Controller
     public function show($id)
     {
         try {
-            $pelicula = Pelicula::findOrFail($id);
+            // Cargar la película con las sesiones relacionadas
+            $pelicula = Pelicula::with('sesiones')->findOrFail($id);
             return response()->json($pelicula);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Pelicula not found'], 404);
