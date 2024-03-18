@@ -13,13 +13,6 @@
         <li v-for="sesion in sesiones" :key="sesion.id">
           <p>Fecha: {{ sesion.fecha }}</p>
           <p>Hora: {{ sesion.hora }}</p>
-          <h3>Butacas disponibles</h3>
-          <ul>
-            <li v-for="butaca in sesion.butacas" :key="butaca.id">
-              <p>Número: {{ butaca.numero }}</p>
-              <p>Estado: {{ butaca.estado }}</p>
-            </li>
-          </ul>
         </li>
       </ul>
     </div>
