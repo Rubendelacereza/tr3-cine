@@ -2,21 +2,19 @@ version: '3.8'
 
 services:
   laravel-app:
-    build:
-      context: ./back/laravel
-      dockerfile: ./DockerFile
+    image: php:8.1-fpm
     container_name: laravel
     working_dir: /var/www
     volumes:
       - ./back/laravel:/var/www
     command: >
-      bash -c "composer update
-      && echo 'iniciem'
+      bash -c "apt-get update && apt-get install -y libpng-dev libjpeg-dev libfreetype6-dev zip unzip git 
+      libonig-dev libxml2-dev && docker-php-ext-install pdo pdo_mysql gd
+      && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+      && composer install
       && php artisan key:generate
-      && echo 'ini migracio'
       && php artisan migrate
-      && echo 'fi migracio, aixequem servidor'
-      && php artisan serve --host=0.0.0.0 --port=8000"
+      && php artisan serve --host=0.0.0.0"
     ports:
       - "8000:8000"
     depends_on:
@@ -28,25 +26,22 @@ services:
     working_dir: /app
     volumes:
       - ./front/nuxt:/app
+    command: bash -c "pwd && ls -la && echo 'INI' && npm install && echo 'segon'&& npm i @pinia/nuxt && npm install pinia && npx nodemon -L --watch . --exec 'npm run dev'"
     ports:
       - "3000:3000"
-    environment:
-      - WATCHPACK_POLLING=true
-      - CHOKIDAR_USEPOLLING=true
-    command: bash -c "npm install && npm run dev"
 
   db:
-    image: mysql:latest
+    image: mysql:8.2.0
     container_name: mysql_db
     volumes:
-      - db-data5:/var/lib/mysql
+      - db-data2:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: laravel
-      MYSQL_USER: usuari_tmp
-      MYSQL_PASSWORD: 1password
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
     ports:
-      - "3306:3306"
+      - "3307:3306"
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -54,9 +49,12 @@ services:
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
+      PMA_USER: user
+      PMA_PASSWORD: user
     ports:
       - "8080:80"
     depends_on:
       - db
+
 volumes:
-  db-data5:
+  db-data2:
