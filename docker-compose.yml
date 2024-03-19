@@ -14,7 +14,7 @@ services:
       && composer install
       && php artisan key:generate
       && php artisan migrate
-      && php artisan serve --host=0.0.0.0"
+      && php artisan serve --host=0.0.0.0 --port=8000"
     ports:
       - "8000:8000"
     depends_on:
@@ -31,13 +31,13 @@ services:
       - "3000:3000"
 
   db:
-    image: mysql:8.2.0
+    image: mysql:8.0.26
     container_name: mysql_db
     volumes:
-      - db-data2:/var/lib/mysql
+      - db-data3:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
+      MYSQL_DATABASE: cinema
       MYSQL_USER: user
       MYSQL_PASSWORD: user
     ports:
@@ -57,4 +57,4 @@ services:
       - db
 
 volumes:
-  db-data2:
+  db-data3:
