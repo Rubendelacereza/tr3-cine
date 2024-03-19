@@ -15,10 +15,11 @@
           <p class="movie-duration">Duración: {{ pelicula.duracion }}</p>
           <p class="movie-rating">Clasificación: {{ pelicula.clasificacion }}</p>
           <nuxt-link :to="`/ComprarEntradas/${pelicula.id}`" class="buy-ticket-button">Comprar Entradas</nuxt-link>
+        </div>
       </div>
     </div>
+    <nuxt-link to="/RegisterScreen" class="Register-button">Register</nuxt-link>
   </div>
-</div>
 </template>
 
 <script>

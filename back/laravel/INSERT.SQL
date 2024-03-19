@@ -17,9 +17,12 @@ VALUES
 -- Insertar usuarios en la tabla usuarios
 INSERT INTO usuarios (nombre, apellido, telefono, correo, created_at, updated_at)
 VALUES
-  ('Ruben', 'De la Cereza', '123456789', 'ruben@gmail.com', NOW(), NOW()),
-  ('Hugo', 'Tripiana', '987654321', 'hugo@gmail.com', NOW(), NOW()),
-  ('Josu', 'Largo', '555555555', 'josu@gmail.com', NOW(), NOW());
+  -- Insertar usuarios en la tabla usuarios
+  INSERT INTO usuarios (nombre, apellido, telefono, correo, contraseña, created_at, updated_at)
+  VALUES
+    ('Ruben', 'De la Cereza', '123456789', 'ruben@gmail.com', 'password1', NOW(), NOW()),
+    ('Hugo', 'Tripiana', '987654321', 'hugo@gmail.com', 'password2', NOW(), NOW()),
+    ('Josu', 'Largo', '555555555', 'josu@gmail.com', 'password3', NOW(), NOW());
 
 -- Insertar sesiones en la tabla sesiones
 INSERT INTO sesiones (id_pelicula, fecha, hora, created_at, updated_at)
