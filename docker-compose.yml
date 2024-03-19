@@ -34,7 +34,7 @@ services:
     image: mysql:8.0.26
     container_name: mysql_db
     volumes:
-      - db-data3:/var/lib/mysql
+      - db-data4:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: cinema
@@ -57,4 +57,4 @@ services:
       - db
 
 volumes:
-  db-data3:
+  db-data4:

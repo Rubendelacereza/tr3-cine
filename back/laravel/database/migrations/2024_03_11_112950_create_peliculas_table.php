@@ -14,6 +14,7 @@ class CreatePeliculasTable extends Migration
             $table->string('imagen_url');
             $table->integer('duracion');
             $table->unsignedInteger('clasificacion');
+            $table->string('categoria');
             $table->timestamps();
         });
     }

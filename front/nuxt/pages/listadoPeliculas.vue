@@ -1,18 +1,24 @@
 <template>
   <div class="container">
     <h1 class="title">Listado de Películas</h1>
+    <div class="category-filter">
+      <select v-model="selectedCategory">
+        <option value="">Todas las categorías</option>
+        <option v-for="category in categories" :key="category">{{ category }}</option>
+      </select>
+    </div>
     <div class="movies-grid">
-      <div class="movie-card" v-for="pelicula in peliculas" :key="pelicula.id">
+      <div class="movie-card" v-for="pelicula in filteredPeliculas" :key="pelicula.id">
         <img :src="pelicula.imagen_url" :alt="pelicula.titulo" class="movie-image" />
         <div class="movie-info">
           <h2 class="movie-title">{{ pelicula.titulo }}</h2>
-          <p class="movie-duration">{{ pelicula.duracion }}</p>
-          <p class="movie-rating">{{ pelicula.clasificacion }}</p>
-          <NuxtLink :to="'/ComprarEntradas/' + pelicula.id" class="buy-ticket-button">Comprar Entradas</NuxtLink>
-        </div>
+          <p class="movie-duration">Duración: {{ pelicula.duracion }}</p>
+          <p class="movie-rating">Clasificación: {{ pelicula.clasificacion }}</p>
+          <nuxt-link :to="`/ComprarEntradas/${pelicula.id}`" class="buy-ticket-button">Comprar Entradas</nuxt-link>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -20,7 +26,16 @@ export default {
   data() {
     return {
       peliculas: [],
+      selectedCategory: '',
     };
+  },
+  computed: {
+    filteredPeliculas() {
+      return this.selectedCategory ? this.peliculas.filter(pelicula => pelicula.categoria === this.selectedCategory) : this.peliculas;
+    },
+    categories() {
+      return [...new Set(this.peliculas.map(pelicula => pelicula.categoria))];
+    }
   },
   async mounted() {
     try {

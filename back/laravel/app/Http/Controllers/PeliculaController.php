@@ -17,4 +17,9 @@ class PeliculaController extends Controller
         $pelicula = Pelicula::find($id);
         return response()->json($pelicula);
     }
+    public function categories()
+{
+    $categories = Pelicula::distinct('categoria')->pluck('categoria');
+    return response()->json($categories);
+}   
 }
