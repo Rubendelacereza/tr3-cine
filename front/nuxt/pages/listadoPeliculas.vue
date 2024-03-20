@@ -19,6 +19,8 @@
       </div>
     </div>
     <nuxt-link to="/RegisterScreen" class="Register-button">Register</nuxt-link>
+    <nuxt-link to="/LoginScreen" class="login-button">Login</nuxt-link>
+    
   </div>
 </template>
 

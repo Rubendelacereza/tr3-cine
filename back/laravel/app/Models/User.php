@@ -12,12 +12,14 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'usuarios';
+    protected $primaryKey = 'id'; // Asegúrate de especificar la clave primaria si es diferente de 'id'
+
     protected $fillable = [
         'nombre',
         'apellido',
         'telefono',
         'correo',
-        'contraseña',
+        'contraseña', // Mantenemos 'contraseña' si es el nombre de tu campo en la base de datos
     ];
 
     protected $hidden = [
@@ -28,4 +30,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // Especifica explícitamente el nombre del campo de la contraseña
+    public function getAuthPassword()
+    {
+        return $this->contraseña;
+    }
 }

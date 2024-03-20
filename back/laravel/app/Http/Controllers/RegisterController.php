@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -26,7 +24,7 @@ class RegisterController extends Controller
             'apellido' => $request->apellido,
             'telefono' => $request->telefono,
             'correo' => $request->correo,
-            'contraseña' => Hash::make($request->contraseña),
+            'contraseña' => bcrypt($request->contraseña), // Hashear la contraseña
         ]);
 
         // Retornar una respuesta JSON indicando el éxito del registro
