@@ -73,7 +73,7 @@ export default {
 }
 
 .btn {
-  background-color: #007bff;
+  background-color: #000;
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -82,6 +82,6 @@ export default {
 }
 
 .btn:hover {
-  background-color: #0056b3;
+  background-color: #FF4081;
 }
 </style>
