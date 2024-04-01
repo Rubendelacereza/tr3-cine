@@ -2,8 +2,9 @@
     <div class="patio-butacas">
         <div v-for="fila in butacas" :key="fila.id" class="fila">
             <div v-for="asiento in fila.butacas" :key="asiento.id" class="asiento"
-                 :class="{ vip: asiento.vip, ocupado: asiento.ocupado }" @click="seleccionarAsiento(asiento)">
-                <img :src="getButacaImage(asiento)" :alt="'Asiento ' + (asiento.vip ? 'VIP' : 'Normal')" />
+                 :class="{ vip: asiento.vip, seleccionada: asientoSeleccionada.includes(asiento.id), ocupado: asiento.ocupado }" @click="toggleSeleccion(asiento)">
+                <!-- Eliminamos la imagen de las butacas -->
+                {{ asiento.id }}
             </div>
         </div>
     </div>
@@ -11,15 +12,19 @@
 
 <script>
 export default {
-    props: ['butacas'],
+    props: ['butacas', 'asientosSeleccionados'],
     methods: {
-        seleccionarAsiento(asiento) {
+        toggleSeleccion(asiento) {
             if (!asiento.ocupado) {
-                this.$emit('asientoSeleccionado', asiento);
+                // Verificamos si el asiento ya está seleccionado
+                if (this.asientosSeleccionados.includes(asiento.id)) {
+                    // Si está seleccionado, lo quitamos de la lista de seleccionados
+                    this.$emit('desseleccionarAsiento', asiento);
+                } else {
+                    // Si no está seleccionado, lo agregamos a la lista de seleccionados
+                    this.$emit('seleccionarAsiento', asiento);
+                }
             }
-        },
-        getButacaImage(asiento) {
-            return asiento.ocupado ? '/img/butaca-ocupada.png' : '/img/butaca-libre.png';
         },
     },
 };
@@ -38,17 +43,20 @@ export default {
 
 .asiento {
     margin: 5px;
-}
-
-.asiento img {
-    width: 50px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
 }
 
 .asiento.vip {
     border: 2px solid gold;
 }
 
+.asiento.seleccionada {
+    background-color: green;
+}
+
 .asiento.ocupado {
-    border: 2px solid red;
+    background-color: red;
 }
 </style>

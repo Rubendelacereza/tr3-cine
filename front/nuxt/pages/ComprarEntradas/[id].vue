@@ -13,7 +13,7 @@
         v-for="butaca in butacas"
         :key="butaca.id"
         class="butaca-button"
-        :class="{ 'butaca-seleccionada': butacaSeleccionada === butaca.id }"
+        :class="{ 'butaca-seleccionada': butacaSeleccionada === butaca.id, 'butaca-ocupada': butaca.ocupado }"
         @click="reservarButaca(butaca)"
       >
         <img :src="butaca.imagen_url" class="butaca-image" />
@@ -141,6 +141,10 @@ export default {
 }
 
 .butaca-seleccionada {
-  border: 2px solid green;
+  background-color: green;
+}
+
+.butaca-ocupada {
+  background-color: red;
 }
 </style>
