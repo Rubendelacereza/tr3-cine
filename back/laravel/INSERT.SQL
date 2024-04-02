@@ -14,10 +14,6 @@ VALUES
   ('Interestelar', 'https://t0.gstatic.com/licensed-image?q=tbn:ANd9GcQ7Fs96VWAroj5FnniocLkw2e9AXfcIjZyrvtZ5eGxfF5Q3O6ZuzsjXmTpVSBG0E5u0', 160, 5, 'Ciencia Ficción', NOW(), NOW()),
   ('La teoria del todo', 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSga0dkGIsGIb8feeeArnpwiK4JWsAYIyN42A__YXmFij9foijM', 103, 4, 'Drama', NOW(), NOW());
 
--- Insertar usuarios en la tabla usuarios
-INSERT INTO usuarios (nombre, apellido, telefono, correo, created_at, updated_at)
-VALUES
-  -- Insertar usuarios en la tabla usuarios
   INSERT INTO usuarios (nombre, apellido, telefono, correo, contraseña, created_at, updated_at)
   VALUES
     ('Ruben', 'De la Cereza', '123456789', 'ruben@gmail.com', 'password1', NOW(), NOW()),

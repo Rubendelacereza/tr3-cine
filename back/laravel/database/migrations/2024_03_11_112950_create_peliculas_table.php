@@ -15,6 +15,8 @@ class CreatePeliculasTable extends Migration
             $table->integer('duracion');
             $table->unsignedInteger('clasificacion');
             $table->string('categoria');
+            $table->text('sinopsis'); // Agregar campo para la sinopsis
+            $table->string('trailer_url'); // Agregar campo para el enlace del tráiler
             $table->timestamps();
         });
     }
