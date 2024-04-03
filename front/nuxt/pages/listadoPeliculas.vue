@@ -4,8 +4,8 @@
       <h1 class="header-title">CINE</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <li class="header-nav-item"><a href="#" class="header-nav-link">Inicio</a></li>
-          <li class="header-nav-item"><a href="#" class="header-nav-link">Películas</a></li>
+          <li class="header-nav-item"><nuxt-link to="/" class="header-nav-link">Inicio</nuxt-link></li>
+          <li class="header-nav-item"><nuxt-link to="/AdministrarPeliculas" class="header-nav-link">Películas</nuxt-link></li>
           <li class="header-nav-item"><a href="#" class="header-nav-link">Contacto</a></li>
         </ul>
       </nav>
