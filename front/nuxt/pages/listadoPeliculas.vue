@@ -31,14 +31,22 @@
     </div>
     <div v-if="showModal" class="modal-background">
       <div class="modal">
-        <span class="close" @click="cerrarDetallesPelicula">&times;</span>
-        <div class="modal-left">
-          <h2 class="modal-title">{{ peliculaSeleccionada.titulo }}</h2>
-          <img :src="peliculaSeleccionada.imagen_url" :alt="peliculaSeleccionada.titulo" class="modal-image" />
-          <p class="modal-synopsis">{{ peliculaSeleccionada.sinopsis }}</p>
-        </div>
-        <div class="modal-right">
-          <iframe width="100%" height="100%" :src="peliculaSeleccionada.trailer_url" frameborder="0" allowfullscreen></iframe>
+        <button class="close" @click="cerrarDetallesPelicula">&times;</button>
+        <div class="modal-content">
+          <div class="modal-left">
+            <img :src="peliculaSeleccionada.imagen_url" :alt="peliculaSeleccionada.titulo" class="modal-image" />
+          </div>
+          <div class="modal-right">
+            <h2 class="modal-title">{{ peliculaSeleccionada.titulo }}</h2>
+            <p class="modal-synopsis">{{ peliculaSeleccionada.sinopsis }}</p>
+            <div class="trailer-container">
+              <iframe :src="peliculaSeleccionada.trailer_url + '?autoplay=1'" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="modal-actions">
+              <button class="btn btn-buy">Comprar Entradas</button>
+              <button class="btn btn-add-to-favorites">Agregar a Favoritos</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -245,57 +253,113 @@ export default {
 }
 
 .modal {
-  background-color: #fefefe;
-  padding: 20px;
+  width: 90%; /* Ancho del modal ajustado al 90% */
+  max-width: 1200px; 
+  background-color: #ffffff;
   border-radius: 10px;
-  max-width: 80%;
-  max-height: 80%;
-  overflow: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative; /* Ensure relative positioning for absolute children */
+  margin-top:60px;
 }
 
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #888;
   cursor: pointer;
 }
 
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-}
-
-.modal-left {
-  float: left;
-  width: 50%;
-}
-
-.modal-right {
-  float: right;
-  width: 50%;
+.modal-content {
+  display: flex;
+  padding: 20px;
 }
 
 .modal-title {
-  margin-top: 0;
-  font-size: 1.2em;
+  text-align: center;
+  font-size: 2em;
   color: #333;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.modal-left {
+  flex: 1;
+}
+
+.modal-right {
+  flex: 1;
 }
 
 .modal-image {
-  width: 50%;
+  width: 80%;
   height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sinopsis-container {
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 .modal-synopsis {
-  font-size: 1em;
-  color: #333;
+  font-size: 1.1em;
+  color: #555;
+  margin: 10 auto;
+  max-width: 100%; /* O cualquier ancho deseado */
 }
 
-iframe {
+
+.trailer-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.trailer-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  border: none;
+}
+
+.modal-actions {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-buy {
+  background-color: #ff4081;
+  color: white;
+}
+
+.btn-add-to-favorites {
+  background-color: #2196f3;
+  color: white;
+}
+
+.btn:hover {
+  background-color: darken(#ff4081, 10%);
+}
+
+.btn-add-to-favorites:hover {
+  background-color: darken(#2196f3, 10%);
 }
 
 /* Hide scrollbar */
