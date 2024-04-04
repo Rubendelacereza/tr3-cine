@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pelicula;
 use Illuminate\Http\Request;
+use App\Models\Sesion;
 
 class PeliculaController extends Controller
 {
@@ -12,6 +13,18 @@ class PeliculaController extends Controller
         $peliculas = Pelicula::all();
         return response()->json($peliculas);
     }
+    public function destroy($id)
+{
+    $pelicula = Pelicula::find($id);
+
+    if (!$pelicula) {
+        return response()->json(['message' => 'Pelicula no encontrada'], 404);
+    }
+
+    $pelicula->delete();
+
+    return response()->json(['message' => 'Pelicula eliminada correctamente']);
+}
 
     public function show($id)
     {
@@ -34,14 +47,14 @@ class PeliculaController extends Controller
 
         // Crea una nueva instancia de Pelicula con los datos del formulario
         $pelicula = new Pelicula([
-            'titulo' => $request->input('titulo'),
-            'imagen_url' => $request->input('imagen_url'),
-            'duracion' => $request->input('duracion'),
-            'clasificacion' => $request->input('clasificacion'),
-            'categoria' => $request->input('categoria'),
-            'sinopsis' => $request->input('sinopsis'),
-            'trailer_url' => $request->input('trailer_url'),
-        ]);
+        'titulo' => $request->input('titulo'),
+        'imagen_url' => $request->input('imagen_url'),
+        'duracion' => $request->input('duracion'),
+        'clasificacion' => $request->input('clasificacion'),
+        'categoria' => $request->input('categoria'),
+        'sinopsis' => $request->input('sinopsis'),
+        'trailer_url' => $request->input('trailer_url'),
+    ]);
 
         // Guarda la nueva pelicula en la base de datos
         $pelicula->save();
