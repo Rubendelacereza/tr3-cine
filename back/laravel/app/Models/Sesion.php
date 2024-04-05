@@ -1,21 +1,21 @@
 <?php
 
-// Sesion.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Sesion extends Model
 {
-    protected $table = 'sesiones'; // Nombre de la tabla en la base de datos
+    protected $table = 'sesiones'; // Especificar el nombre de la tabla correctamente
+
+    protected $fillable = [
+        'id_pelicula',
+        'fecha',
+        'hora',
+    ];
 
     public function pelicula()
     {
-        return $this->belongsTo(Pelicula::class, 'pelicula_id');
-    }
-
-    public function butacas()
-    {
-        return $this->hasMany(Butaca::class);
+        return $this->belongsTo(Pelicula::class, 'id_pelicula');
     }
 }

@@ -17,9 +17,12 @@ class LoginController extends Controller
 
         // Intentar autenticar al usuario con las credenciales proporcionadas
         if (Auth::attempt(['correo' => $request->correo, 'password' => $request->contraseña])) {
-            // Si la autenticación es exitosa, devolver una respuesta JSON indicando el éxito del inicio de sesión
+            // Si la autenticación es exitosa, obtener el usuario autenticado
+            $user = Auth::user();
+            // Retornar una respuesta JSON indicando el éxito del inicio de sesión junto con el usuario autenticado
             return response()->json([
                 'message' => 'Inicio de sesión exitoso',
+                'user' => $user,
             ], 200);
         }
 
