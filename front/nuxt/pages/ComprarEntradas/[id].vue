@@ -1,28 +1,37 @@
 <template>
   <div class="movie-details">
-    <h1 class="title">{{ pelicula.titulo }}</h1>
-    <img :src="pelicula.imagen_url" :alt="pelicula.titulo" class="movie-image" />
-    <div class="session-selection">
-      <label for="session-select" class="label">Selecciona una sesión:</label>
-      <select id="session-select" v-model="selectedSession" @change="obtenerButacas" class="select">
-        <option v-for="sesion in sesiones" :key="sesion.id" :value="sesion.id" class="option">{{ sesion.fecha }}</option>
-      </select>
+    <div class="left-section">
+      <h1 class="title">{{ pelicula.titulo }}</h1>
+      <img :src="pelicula.imagen_url" :alt="pelicula.titulo" class="movie-image" />
+      <div class="session-selection">
+        <label for="session-select" class="label">Selecciona una sesión:</label>
+        <select id="session-select" v-model="selectedSession" @change="obtenerButacas" class="select">
+          <option v-for="sesion in sesiones" :key="sesion.id" :value="sesion.id" class="option">{{ sesion.fecha }}</option>
+        </select>
+      </div>
     </div>
-    <div class="butacas-container">
-      <button
-        v-for="butaca in butacas"
-        :key="butaca.id"
-        class="butaca-button"
-        :class="{ 'butaca-seleccionada': butacasSeleccionadas.has(butaca.id), 'butaca-ocupada': butaca.ocupado }"
-        @click="reservarButaca(butaca)"
-      >
-        <img :src="butaca.imagen_url" class="butaca-image" />
-      </button>
+    <div class="right-section">
+      <div v-if="butacas.length > 0" class="butacas-container">
+        <div class="fila-butacas" v-for="(fila, index) in filas" :key="index">
+          <button
+            v-for="butaca in fila"
+            :key="butaca.id"
+            class="butaca-button"
+            :class="{ 'butaca-seleccionada': butacasSeleccionadas.has(butaca.id), 'butaca-ocupada': butaca.ocupado }"
+            @click="reservarButaca(butaca)"
+          >
+            <img :src="butaca.imagen_url" class="butaca-image" />
+          </button>
+        </div>
+      </div>
+      <button @click="guardarButacas" class="guardar-button">Guardar</button>
     </div>
-    <button @click="guardarButacas" class="guardar-button">Guardar</button>
+    <!-- Rectángulo encima de las butacas -->
+    <div class="rectangulo">
+      <div class="texto-pantalla">PANTALLA</div>
+    </div>
   </div>
 </template>
-
 <script>
 export default {
   data() {
@@ -31,7 +40,7 @@ export default {
       sesiones: [],
       selectedSession: null,
       butacas: [],
-      butacasSeleccionadas: new Set(), // Conjunto para almacenar butacas seleccionadas
+      butacasSeleccionadas: new Set(),
     };
   },
   async mounted() {
@@ -49,7 +58,7 @@ export default {
     },
     async obtenerSesiones() {
       try {
-        const res = await fetch(`http://127.0.0.1:8000/api/sesiones/${this.$route.params.id}`);
+        const res = await fetch(`http://127.0.0.1:8000/api/sesiones/pelicula/${this.$route.params.id}`);
         this.sesiones = await res.json();
       } catch (error) {
         console.error('Error al obtener las sesiones', error);
@@ -58,15 +67,10 @@ export default {
     async obtenerButacas() {
       try {
         const res = await fetch(`http://127.0.0.1:8000/api/sesiones/${this.selectedSession}/butacas`);
-        let butacas = await res.json();
-        // Modificar la ruta de la imagen para todas las butacas
-        butacas = butacas.map(butaca => {
-          return {
-            ...butaca,
-            imagen_url: 'https://cdn-icons-png.flaticon.com/512/24/24868.png'
-          };
+        this.butacas = await res.json();
+        this.butacas.forEach(butaca => {
+          butaca.imagen_url = 'https://cdn-icons-png.flaticon.com/512/24/24868.png';
         });
-        this.butacas = butacas;
       } catch (error) {
         console.error('Error al obtener las butacas', error);
       }
@@ -74,9 +78,9 @@ export default {
     reservarButaca(butaca) {
       if (!butaca.ocupado) {
         if (this.butacasSeleccionadas.has(butaca.id)) {
-          this.butacasSeleccionadas.delete(butaca.id); // Si ya está seleccionada, deseleccionarla
+          this.butacasSeleccionadas.delete(butaca.id);
         } else {
-          this.butacasSeleccionadas.add(butaca.id); // Si no está seleccionada, agregarla al conjunto
+          this.butacasSeleccionadas.add(butaca.id);
         }
       } else {
         console.log('La butaca ya está ocupada');
@@ -84,38 +88,75 @@ export default {
     },
     async guardarButacas() {
       try {
-        // Cambiar el estado de ocupado de las butacas seleccionadas
         const promises = Array.from(this.butacasSeleccionadas).map(async butacaId => {
           await fetch(`http://127.0.0.1:8000/api/butacas/${butacaId}`, {
             method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ ocupado: 1 }), // Cambiar el estado de ocupado a 1
+            body: JSON.stringify({ ocupado: true }),
           });
         });
         await Promise.all(promises);
-        
-        // Redirigir al usuario a listadoPeliculas.vue
         this.$router.push('/listadoPeliculas');
       } catch (error) {
         console.error('Error al guardar las butacas', error);
       }
     },
   },
+  computed: {
+    filas() {
+      const filas = [];
+      for (let i = 0; i < this.butacas.length; i += 5) {
+        filas.push(this.butacas.slice(i, i + 5));
+      }
+      return filas;
+    }
+  },
 };
 </script>
 
 <style scoped>
 .movie-details {
+  display: flex;
+  flex-direction: row;
   padding: 20px;
-  text-align: center;
+}
+.rectangulo {
+  position: absolute;
+  top: 20%; /* Ajusta esta posición según tu diseño */
+  left: 57%; /* Ajusta esta posición según tu diseño */
+  width: 285px; /* Ajusta el ancho del rectángulo */
+  height: 100px; /* Ajusta la altura del rectángulo */
+  background-color: #f8f8f8;
+  border: 1px solid black; /* Añade borde de color negro */
+  z-index: 1; /* Asegura que esté encima de las butacas */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+}
+.left-section {
+  margin-top:5%;
+  margin-left: 30%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinea los elementos a la izquierda */
+}
+
+.right-section {
+  margin-top:15%;
+  margin-left:10%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Alinea los elementos a la derecha */
 }
 
 .title {
-  margin-bottom: 20px;
   font-size: 2.5em;
   color: #333;
+}
+.texto-pantalla {
+  font-size: 1.5em;
 }
 
 .movie-image {
@@ -140,18 +181,16 @@ export default {
   font-size: 1em;
   background-color: #f8f8f8;
 }
-.button {
-  background-color: transparent;
-}
-
-.option {
-  font-size: 1em;
-}
 
 .butacas-container {
   display: flex;
+  flex-direction: column;
+}
+
+.fila-butacas {
+  display: flex;
   justify-content: center;
-  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
 .butaca-button {
@@ -176,7 +215,6 @@ export default {
 }
 
 .guardar-button {
-  margin-top: 20px;
   padding: 10px 20px;
   font-size: 1.2em;
   background-color: #6bd454;
@@ -185,6 +223,7 @@ export default {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin: auto;
 }
 
 .guardar-button:hover {

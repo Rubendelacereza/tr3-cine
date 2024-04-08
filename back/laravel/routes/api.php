@@ -16,7 +16,7 @@ Route::put('/peliculas/{id}', [PeliculaController::class, 'update']);
 
 // Rutas para las sesiones
 Route::get('/sesiones', [SesionController::class, 'index']);
-Route::get('/sesiones/{id}', [SesionController::class, 'show']);
+Route::get('/sesiones/pelicula/{id_pelicula}', [SesionController::class, 'show']);
 Route::post('/sesiones', [SesionController::class, 'store']);
 Route::delete('/sesiones/{id}', [SesionController::class, 'destroy']);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Sesion;
 use Illuminate\Http\Request;
+use App\Models\Butaca;
 
 class SesionController extends Controller
 {
@@ -23,11 +24,11 @@ class SesionController extends Controller
 }
 
     // Método para mostrar las sesiones de una película por su ID
-    public function show($id)
+    public function show($id_pelicula)
     {
         try {
-            // Cargar las sesiones junto con las butacas asociadas para una película específica
-            $sesiones = Sesion::with('butacas')->where('id_pelicula', $id)->get();
+            // Obtener las sesiones de la película con el ID dado
+            $sesiones = Sesion::where('id_pelicula', $id_pelicula)->get();
             
             // Devolver las sesiones de la película como una respuesta JSON
             return response()->json($sesiones);
@@ -39,18 +40,18 @@ class SesionController extends Controller
 
     // Método para obtener las butacas de una sesión por su ID
     public function butacas($id)
-    {
-        try {
-            // Obtener las butacas asociadas a la sesión con el ID dado
-            $butacas = Sesion::findOrFail($id)->butacas;
-            
-            // Devolver las butacas como una respuesta JSON
-            return response()->json($butacas);
-        } catch (\Exception $e) {
-            // Si no se encuentran butacas para la sesión, devolver un mensaje de error con un código de estado 404 (Not Found)
-            return response()->json(['message' => 'Butacas not found for this session'], 404);
-        }
+{
+    try {
+        // Obtener las butacas asociadas a la sesión con el ID dado
+        $butacas = Butaca::where('sesion_id', $id)->get();
+        
+        // Devolver las butacas como una respuesta JSON
+        return response()->json($butacas);
+    } catch (\Exception $e) {
+        // Si no se encuentran butacas para la sesión, devolver un mensaje de error con un código de estado 404 (Not Found)
+        return response()->json(['message' => 'Butacas not found for this session'], 404);
     }
+}
 
     // Método para almacenar una nueva sesión
     public function store(Request $request)

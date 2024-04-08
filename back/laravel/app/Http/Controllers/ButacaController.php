@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -7,6 +6,7 @@ use App\Models\Butaca;
 
 class ButacaController extends Controller
 {
+    // Método para actualizar el estado de ocupado de una butaca
     public function actualizarButaca($id)
     {
         try {
@@ -25,3 +25,4 @@ class ButacaController extends Controller
         }
     }
 }
+?>
