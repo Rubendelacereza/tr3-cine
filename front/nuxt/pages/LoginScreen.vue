@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { useStore } from '../store/index.js';
 export default {
   data() {
     return {
@@ -37,11 +38,15 @@ export default {
           body: JSON.stringify(this.form),
         });
         if (response.ok) {
+          const data = await response.json(); // Obtener los datos de la respuesta
+          const store = useStore(); // Obtener la instancia de la tienda
+          store.setUser(data); // Establecer el usuario en la tienda Vuex
+          localStorage.setItem('user', JSON.stringify(data)); // Guardar el usuario en el almacenamiento local
           alert('Inicio de sesión exitoso');
           // Redireccionar a la página de listado
-          await this.$router.push('/listado');
+          await this.$router.push('/listadoPeliculas');
         } else {
-          const data = await response.json();
+          const data = await response.json(); // Obtener los datos de la respuesta
           alert('Error al iniciar sesión: ' + data.message);
         }
       } catch (error) {
