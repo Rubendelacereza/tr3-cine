@@ -24,14 +24,28 @@
           </button>
         </div>
       </div>
-      <button @click="guardarButacas" class="guardar-button">Guardar</button>
+      <nuxt-link @click="confirmarYRedirigir" class="guardar-button">Comprar Entradas</nuxt-link>
     </div>
+    <div v-if="reservaConfirmada" class="resumen-reserva">
+        <h2>Resumen de la reserva</h2>
+        <p><strong>Película:</strong> {{ pelicula.titulo }}</p>
+        <p><strong>Sesión:</strong> {{ sesionSeleccionada.fecha }} - {{ sesionSeleccionada.hora }}</p>
+        <p><strong>Butacas seleccionadas:</strong></p>
+        <ul>
+          <li v-for="butacaId in butacasSeleccionadas" :key="butacaId">{{ butacaId }}</li>
+        </ul>
+        <p><strong>Total a pagar:</strong> {{ calcularTotalAPagar() }}</p>
+      </div>
+      
+      <button v-if="!reservaConfirmada" @click="confirmarReserva" class="guardar-button">Confirmar Reserva</button>
+    </div>
+
     <!-- Rectángulo encima de las butacas -->
     <div class="rectangulo">
       <div class="texto-pantalla">PANTALLA</div>
     </div>
-  </div>
 </template>
+
 <script>
 export default {
   data() {
@@ -41,6 +55,7 @@ export default {
       selectedSession: null,
       butacas: [],
       butacasSeleccionadas: new Set(),
+      reservaConfirmada: false // Bandera para verificar si la reserva ha sido confirmada
     };
   },
   async mounted() {
@@ -88,20 +103,41 @@ export default {
     },
     async guardarButacas() {
       try {
-        const promises = Array.from(this.butacasSeleccionadas).map(async butacaId => {
-          await fetch(`http://127.0.0.1:8000/api/butacas/${butacaId}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ ocupado: true }),
-          });
+        const response = await fetch('http://127.0.0.1:8000/api/reservas', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            butacasSeleccionadas: Array.from(this.butacasSeleccionadas),
+            sesionId: this.selectedSession,
+            userId: 1, // Aquí debes proporcionar el ID del usuario autenticado
+          }),
         });
-        await Promise.all(promises);
-        this.$router.push('/listadoPeliculas');
+        if (response.ok) {
+          this.reservaConfirmada = true;
+        } else {
+          console.error('Error al guardar las butacas');
+        }
       } catch (error) {
         console.error('Error al guardar las butacas', error);
       }
+    },
+    confirmarReserva() {
+      // Aquí podrías enviar los datos de la reserva al backend para su procesamiento
+      // Una vez que la reserva haya sido confirmada por el backend, establece la bandera reservaConfirmada en true
+      // Esto mostrará el resumen de la reserva y ocultará el botón para confirmar la reserva nuevamente
+      this.reservaConfirmada = true;
+    },
+    calcularTotalAPagar() {
+      // Aquí podrías implementar la lógica para calcular el total a pagar según las butacas seleccionadas
+      // Por ejemplo, puedes multiplicar el número de butacas por el precio de la entrada
+      // Retorna el total calculado
+    },
+    async confirmarYRedirigir() {
+      await this.guardarButacas(); // Guardar las butacas
+      // Redirigir al usuario a la página de reserva
+      this.$router.push('/reserva');
     },
   },
   computed: {
@@ -111,11 +147,13 @@ export default {
         filas.push(this.butacas.slice(i, i + 5));
       }
       return filas;
+    },
+    sesionSeleccionada() {
+      return this.sesiones.find(sesion => sesion.id === this.selectedSession);
     }
-  },
+  }
 };
 </script>
-
 <style scoped>
 .movie-details {
   display: flex;

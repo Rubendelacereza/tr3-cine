@@ -6,7 +6,7 @@
         <ul class="header-nav-list">
           <li class="header-nav-item"><nuxt-link to="/" class="header-nav-link">Inicio</nuxt-link></li>
           <li class="header-nav-item"><nuxt-link to="/Admin" class="header-nav-link">Admin</nuxt-link></li>
-          <li class="header-nav-item"><a href="#" class="header-nav-link">Contacto</a></li>
+          <li class="header-nav-item"><nuxt-link to="/Reserva" class="header-nav-link">Mis Reservas</nuxt-link></li>
         </ul>
       </nav>
     </header>

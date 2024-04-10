@@ -6,6 +6,7 @@ use App\Http\Controllers\SesionController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ButacaController;
+use App\Http\Controllers\ReservaController;
 
 // Rutas para las películas
 Route::get('/peliculas', [PeliculaController::class, 'index']);
@@ -35,4 +36,5 @@ Route::get('/categories', [PeliculaController::class, 'categories']);
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 
-?>
+Route::post('/reservas', [ReservaController::class, 'store']);
+Route::get('/reservas/{id}', [ReservaController::class, 'show']);

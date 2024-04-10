@@ -12,8 +12,7 @@ class CreateReservasTable extends Migration
             $table->id();
             $table->foreignId('butaca_id')->constrained('butacas');
             $table->foreignId('sesion_id')->constrained('sesiones');
-            $table->string('cliente_nombre');
-            $table->string('cliente_email');
+            $table->foreignId('user_id')->constrained('usuarios'); // Agregar la columna para almacenar el ID del usuario
             $table->string('codigo_ticket')->unique();
             $table->timestamps();
         });

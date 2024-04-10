@@ -2,34 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Reserva;
+use App\Models\Butaca;
 use Illuminate\Http\Request;
-use App\Models\Reserva; // Asegúrate de importar el modelo de Reserva si no lo has hecho ya
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+
 
 class ReservaController extends Controller
 {
-    // Otros métodos...
+    // Método para mostrar los detalles de una reserva por su ID
+    public function show($id)
+{
+    // Buscar la reserva por su ID
+    $reserva = Reserva::find($id);
 
-    public function mostrarReservas($id)
-    {
-        $reserva = Reserva::find($id);
-
-        if (!$reserva) {
-            return response()->json(['error' => 'Reserva no encontrada'], 404);
-        }
-
-        return response()->json($reserva, 200);
+    // Verificar si la reserva existe
+    if (!$reserva) {
+        return response()->json(['message' => 'La reserva no existe'], 404);
     }
 
-    public function eliminarReserva($id)
-    {
-        $reserva = Reserva::find($id);
+    // Devolver los detalles de la reserva
+    return response()->json($reserva);
+}
 
-        if (!$reserva) {
-            return response()->json(['error' => 'Reserva no encontrada'], 404);
+    // Método para crear una nueva reserva
+    public function store(Request $request)
+    {
+        $request->validate([
+            'butacasSeleccionadas' => 'required|array',
+            'sesionId' => 'required|exists:sesiones,id',
+            'userId' => 'required|exists:usuarios,id',
+        ]);
+
+        $userId = $request->userId;
+
+        foreach ($request->butacasSeleccionadas as $butacaId) {
+            // Verificar si la butaca está ocupada
+            $butaca = Butaca::find($butacaId);
+            if (!$butaca) {
+                return response()->json(['message' => 'La butaca no existe'], 404);
+            }
+            if ($butaca->ocupado) {
+                return response()->json(['message' => 'La butaca ya está ocupada'], 400);
+            }
+
+            // Guardar la reserva
+            $reserva = new Reserva();
+            $reserva->butaca_id = $butacaId;
+            $reserva->sesion_id = $request->sesionId;
+            $reserva->user_id = $userId;
+            $reserva->codigo_ticket = $this->generarCodigoTicket();
+            $reserva->save();
+
+            // Marcar la butaca como ocupada
+            $butaca->ocupado = 1;
+            $butaca->save();
         }
 
-        $reserva->delete();
+        return response()->json($reserva, 201);
+    }
 
-        return response()->json(['message' => 'Reserva eliminada exitosamente'], 200);
+    private function generarCodigoTicket()
+    {
+        return Str::uuid()->toString();
     }
 }
