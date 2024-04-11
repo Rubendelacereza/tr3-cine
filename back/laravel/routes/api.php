@@ -20,6 +20,7 @@ Route::get('/sesiones', [SesionController::class, 'index']);
 Route::get('/sesiones/pelicula/{id_pelicula}', [SesionController::class, 'show']);
 Route::post('/sesiones', [SesionController::class, 'store']);
 Route::delete('/sesiones/{id}', [SesionController::class, 'destroy']);
+Route::get('/sesiones/{id}/butacas', [SesionController::class, 'butacas']);
 
 // Rutas para las butacas
 Route::get('/butacas', [ButacaController::class, 'index']);

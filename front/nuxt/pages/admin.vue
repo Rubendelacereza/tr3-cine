@@ -12,7 +12,6 @@
         <ul>
           <li><nuxt-link to="/AdministrarPeliculas">Gestión de Películas</nuxt-link></li>
           <li><nuxt-link to="/AdministrarSesiones">Gestión de Sesiones</nuxt-link></li>
-          <li><nuxt-link to="/ventas">Registro de Ventas</nuxt-link></li>
         </ul>
       </nav>
     </aside>

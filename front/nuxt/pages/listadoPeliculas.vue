@@ -4,7 +4,6 @@
       <h1 class="header-title">CINE</h1>
       <nav class="header-nav">
         <ul class="header-nav-list">
-          <li class="header-nav-item"><nuxt-link to="/" class="header-nav-link">Inicio</nuxt-link></li>
           <li class="header-nav-item"><nuxt-link to="/Admin" class="header-nav-link">Admin</nuxt-link></li>
           <li class="header-nav-item"><nuxt-link to="/Reserva" class="header-nav-link">Mis Reservas</nuxt-link></li>
         </ul>
@@ -99,6 +98,24 @@ export default {
 </script>
 
 <style scoped>
+@keyframes scaleUp {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 .container {
   max-width: 1200px;
   margin: auto;
@@ -111,12 +128,14 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
 .header-title {
   margin: 0;
-  font-size: 2.5em;
+  font-size: 3em;
   color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra de texto */
 }
 
 .header-nav-list {
@@ -133,13 +152,19 @@ export default {
   color: #ffffff;
   text-decoration: none;
   font-size: 1.2em;
+  transition: color 0.3s ease; /* Transición de color */
+}
+
+.header-nav-link:hover {
+  color: #ff0055; /* Cambio de color al hacer hover */
 }
 
 .title {
   text-align: center;
   margin-bottom: 20px;
-  font-size: 2.5em;
-  color: #ff4081;
+  font-size: 3em; /* Tamaño de fuente aumentado */
+  color: #ff4081; /* Cambio de color */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra de texto */
 }
 
 .category-filter {
@@ -149,7 +174,7 @@ export default {
 
 .category-label {
   font-size: 1.2em;
-  color: #0e1634;
+  color: #ff4081; /* Cambio de color */
   margin-right: 10px;
 }
 
@@ -159,7 +184,14 @@ export default {
   border: 2px solid #ff4081;
   border-radius: 5px;
   background-color: transparent;
-  color: #0e1634;
+  color: #ff4081; /* Cambio de color */
+  transition: border-color 0.3s ease, color 0.3s ease; /* Transición de color de borde y texto */
+}
+
+.category-select:focus {
+  outline: none;
+  border-color: #ff0055; /* Cambio de color al enfocar */
+  color: #ff0055; /* Cambio de color al enfocar */
 }
 
 .movies-grid {
@@ -171,13 +203,13 @@ export default {
 .movie-card {
   border-radius: 10px;
   overflow: hidden;
-  background-color: #0e1634;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  background-color:#0e1634; /* Cambio de color */
+  box-shadow: 0 0 20px rgba(255, 64, 129, 0.5); /* Sombra */
   transition: transform 0.3s ease;
 }
 
 .movie-card:hover {
-  transform: scale(1.05);
+  animation: scaleUp 0.3s forwards;
 }
 
 .movie-image {
@@ -193,29 +225,31 @@ export default {
 
 .movie-title {
   margin: 0;
-  font-size: 1.5em;
+  font-size: 2em; /* Tamaño de fuente aumentado */
   font-weight: bold;
   color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra de texto */
 }
 
 .movie-duration,
 .movie-rating {
   margin: 10px 0;
-  color: #ff4081;
+  color: #ffffff;
 }
 
 .buy-ticket-button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #ff4081;
-  color: #ffffff;
+  background-color: #ffffff; /* Cambio de color */
+  color: #ff4081; /* Cambio de color */
   text-decoration: none;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transición de color */
 }
 
 .buy-ticket-button:hover {
-  background-color: #ff0055;
+  background-color: #ff4081; /* Cambio de color al hacer hover */
+  color: #ffffff; /* Cambio de color al hacer hover */
 }
 
 .auth-buttons {
@@ -226,16 +260,17 @@ export default {
 .auth-button {
   display: inline-block;
   padding: 10px 20px;
-  background-color: #ff4081;
-  color: #ffffff;
+  background-color: #ffffff; /* Cambio de color */
+  color: #ff4081; /* Cambio de color */
   text-decoration: none;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
-  margin-right: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Transición de color */
+  box-shadow: 0 2px 4px rgba(255, 64, 129, 0.2); /* Sombra */
 }
 
 .auth-button:hover {
-  background-color: #ff0055;
+  background-color: #ff4081; /* Cambio de color al hacer hover */
+  color: #ffffff; /* Cambio de color al hacer hover */
 }
 
 /* Modal */
@@ -253,13 +288,14 @@ export default {
 }
 
 .modal {
-  width: 90%; /* Ancho del modal ajustado al 90% */
-  max-width: 1200px; 
+  width: 90%;
+  max-width: 1200px;
   background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  position: relative; /* Ensure relative positioning for absolute children */
-  margin-top:60px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra */
+  position: relative;
+  margin-top: 60px;
+  animation: fadeIn 0.5s ease; /* Animación más pronunciada */
 }
 
 .close {
@@ -280,10 +316,11 @@ export default {
 
 .modal-title {
   text-align: center;
-  font-size: 2em;
+  font-size: 2.5em; /* Tamaño de fuente aumentado */
   color: #333;
   margin-bottom: 20px;
   width: 100%;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sombra de texto */
 }
 
 .modal-left {
@@ -298,7 +335,7 @@ export default {
   width: 80%;
   height: auto;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
 .sinopsis-container {
@@ -307,19 +344,18 @@ export default {
 }
 
 .modal-synopsis {
-  font-size: 1.1em;
+  font-size: 1.2em; /* Tamaño de fuente aumentado */
   color: #555;
   margin: 10 auto;
-  max-width: 100%; /* O cualquier ancho deseado */
+  max-width: 100%;
 }
-
 
 .trailer-container {
   position: relative;
   padding-bottom: 56.25%;
   overflow: hidden;
   border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Sombra */
 }
 
 .trailer-container iframe {
@@ -345,7 +381,7 @@ export default {
 }
 
 .btn-buy {
-  background-color: #ff4081;
+  background-color: #406dff;
   color: white;
 }
 
@@ -355,11 +391,11 @@ export default {
 }
 
 .btn:hover {
-  background-color: darken(#ff4081, 10%);
+  background-color: #ff0055;
 }
 
 .btn-add-to-favorites:hover {
-  background-color: darken(#2196f3, 10%);
+  background-color: #1976d2;
 }
 
 /* Hide scrollbar */
@@ -368,7 +404,7 @@ export default {
 }
 
 .modal {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
-</style>¡ 
+</style>
